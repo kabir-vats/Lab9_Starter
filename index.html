@@ -69,24 +69,32 @@
     </form>
 
     <section id="error-btns">
-      <button>Console Log</button>
-      <button>Console Error</button>
-      <button>Console Count</button>
-      <button>Console Warn</button>
-      <button>Console Assert</button>
-      <button>Console Clear</button>
-      <button>Console Dir</button>
-      <button>Console dirxml</button>
-      <button>Console Group Start</button>
-      <button>Console Group End</button>
-      <button>Console Table</button>
-      <button>Start Timer</button>
-      <button>End Timer</button>
-      <button>Console Trace</button>
-      <button>Trigger a Global Error</button>
+      <button id="logButton">Console Log</button>
+      <button id="errorButton">Console Error</button>
+      <button id="countButton">Console Count</button>
+      <button id="warnButton">Console Warn</button>
+      <button id="assertButton">Console Assert</button>
+      <button id="clearButton">Console Clear</button>
+      <button id="dirButton">Console Dir</button>
+      <button id="dirxmlButton">Console dirxml</button>
+      <button id="groupStartButton">Console Group Start</button>
+      <button id="groupEndButton">Console Group End</button>
+      <button id="tableButton">Console Table</button>
+      <button id="startTimerButton">Start Timer</button>
+      <button id="endTimerButton">End Timer</button>
+      <button id="traceButton">Console Trace</button>
+      <button id="globalErrorButton">Trigger a Global Error</button>
     </section>
   </main>
 
+  <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
+  <script>
+    window.TrackJS && TrackJS.install({ 
+      token: "74e3846722054c5b822ca2d77a1d1b88"
+      // for more configuration options, see https://docs.trackjs.com
+    });
+  </script>
+                        
   <script>
     let form = document.querySelector('form');
     form.addEventListener('submit', e => {
@@ -102,6 +110,134 @@
 
     // Start your code here
     // You may move this JS to another file if you wish
+
+    // object for dir and others
+    const obj = [{
+        property1: '1',
+        property2: 124,
+        inner: {
+          inner1: 'interior design'
+        }
+    },
+    {
+        property1: '3',
+        property2: 421,
+        inner: {
+          inner1: 'interior designation'
+        }
+    }];
+
+    /*Console Log Button event handler*/
+    document.querySelector('#logButton').addEventListener('click', () => {
+      console.log('Logging to console');
+    });
+
+    /*Console Error Button event handler*/
+    document.querySelector('#errorButton').addEventListener('click', () => {
+      console.error('Sending error to console');
+    });
+
+    /*Console Count Button event handler*/
+    document.querySelector('#countButton').addEventListener('click', () => {
+      console.count('Times Count Button Clicked');
+    });
+
+    /*Console Warn Button event handler*/
+    document.querySelector('#warnButton').addEventListener('click', () => {
+      console.warn('Sending warning to console');
+    });
+
+    /*Console Assert Button event handler*/
+    document.querySelector('#assertButton').addEventListener('click', () => {
+      console.assert(1>3, "1 is not greater than three");
+    });
+
+    /*Console Clear Button event handler*/
+    document.querySelector('#clearButton').addEventListener('click', () => {
+      console.clear();
+    });
+
+    /*Console Dir Button event handler*/
+    document.querySelector('#dirButton').addEventListener('click', () => {
+      console.dir(obj);
+    });
+
+    /*Console Dirxml Button event handler*/
+    document.querySelector('#dirxmlButton').addEventListener('click', () => {
+      console.dirxml(document.querySelector('#error-btns'));
+    });
+
+    /*Console Group Start Button event handler*/
+    document.querySelector('#groupStartButton').addEventListener('click', () => {
+      console.group('group');
+    });
+
+    /*Console Group End Button event handler*/
+    document.querySelector('#groupEndButton').addEventListener('click', () => {
+      console.groupEnd();
+    });
+
+    /*Console Table Button event handler*/
+    document.querySelector('#tableButton').addEventListener('click', () => {
+      console.table(obj);
+    });
+
+    /*Console Start Timer Button event handler*/
+    document.querySelector('#startTimerButton').addEventListener('click', () => {
+      console.time('time');
+    });
+
+    /*Console End Timer Button event handler*/
+    document.querySelector('#endTimerButton').addEventListener('click', () => {
+      console.timeEnd('time');
+    });
+
+    function trace2() {
+      console.trace();
+    }
+
+    function trace1() {
+      trace2();
+    }
+
+    /*Console Trace Button event handler*/
+    document.querySelector('#traceButton').addEventListener('click', () => {
+      trace1();
+    });
+
+    // Step 4 Custom Error
+    class StepFourCustomError extends Error {
+      constructor(message) {
+        super(message);
+        this.name = "StepFourCustomError";
+      }
+    }
+
+    /*Console Global Error Button event handler*/
+    document.querySelector('#globalErrorButton').addEventListener('click', () => {
+      // Step 3
+      try {
+        console.log(document.querySelector('#fakeID').value);
+      }
+      catch (err){
+        console.error('Caught in try catch (step 3):', err);
+        try {
+          throw new StepFourCustomError("Nested Try Catch Sourcery + Custom Error (Step 4)");
+        }
+        catch (err1){
+          console.error(err1);
+        }
+        finally {
+          console.log('Nested finally block!')
+        }
+      }
+      finally {
+        console.log('finally block!')
+      }
+    });
+    
+
+
   </script>
 </body>
 
